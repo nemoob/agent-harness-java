@@ -1,0 +1,44 @@
+dev.agentharness:agent-harness-java:jar:0.1.0-SNAPSHOT
++- io.agentscope:agentscope-core:jar:2.0.4:compile
+|  +- io.projectreactor:reactor-core:jar:3.8.2:compile
+|  |  +- org.reactivestreams:reactive-streams:jar:1.0.4:compile
+|  |  \- org.jspecify:jspecify:jar:1.0.0:compile
+|  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.21:compile
+|  +- com.github.victools:jsonschema-generator:jar:4.38.0:compile
+|  |  \- com.fasterxml:classmate:jar:1.7.0:compile
+|  +- com.github.victools:jsonschema-module-jackson:jar:4.38.0:compile
+|  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.21.7:compile
+|  +- org.slf4j:slf4j-api:jar:2.0.17:compile
+|  +- io.modelcontextprotocol.sdk:mcp:jar:0.17.2:compile
+|  |  +- io.modelcontextprotocol.sdk:mcp-json-jackson2:jar:0.17.2:compile
+|  |  |  \- io.modelcontextprotocol.sdk:mcp-json:jar:0.17.2:compile
+|  |  \- io.modelcontextprotocol.sdk:mcp-core:jar:0.17.2:compile
+|  +- com.squareup.okhttp3:okhttp:jar:5.3.2:compile
+|  |  +- org.jetbrains.kotlin:kotlin-stdlib:jar:2.2.21:compile
+|  |  |  \- org.jetbrains:annotations:jar:13.0:compile
+|  |  \- com.squareup.okio:okio:jar:3.16.4:runtime
+|  +- com.squareup.okhttp3:okhttp-jvm:jar:5.3.2:compile
+|  |  \- com.squareup.okio:okio-jvm:jar:3.16.4:compile
+|  +- com.networknt:json-schema-validator:jar:2.0.0:compile
+|  |  \- com.ethlo.time:itu:jar:1.14.0:compile
+|  +- org.yaml:snakeyaml:jar:2.6:compile
+|  +- io.github.bonede:tree-sitter:jar:0.24.4:compile
+|  +- io.github.bonede:tree-sitter-bash:jar:0.23.3:compile
+|  +- io.opentelemetry:opentelemetry-api:jar:1.61.0:compile
+|  |  \- io.opentelemetry:opentelemetry-context:jar:1.61.0:compile
+|  |     \- io.opentelemetry:opentelemetry-common:jar:1.61.0:compile
+|  +- io.opentelemetry.instrumentation:opentelemetry-reactor-3.1:jar:2.27.0-alpha:compile
+|  |  +- io.opentelemetry.instrumentation:opentelemetry-instrumentation-api:jar:2.27.0:compile
+|  |  |  +- io.opentelemetry:opentelemetry-api-incubator:jar:1.61.0-alpha:compile
+|  |  |  \- io.opentelemetry.semconv:opentelemetry-semconv:jar:1.40.0:compile
+|  |  +- io.opentelemetry.instrumentation:opentelemetry-instrumentation-api-incubator:jar:2.27.0-alpha:compile
+|  |  \- io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations-support:jar:2.27.0-alpha:runtime
+|  |     \- io.opentelemetry.semconv:opentelemetry-semconv-incubating:jar:1.40.0-alpha:runtime
+|  +- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.21.7:compile
+|  +- org.apache.commons:commons-compress:jar:1.27.1:compile
+|  |  +- commons-codec:commons-codec:jar:1.17.1:compile
+|  |  +- commons-io:commons-io:jar:2.16.1:compile
+|  |  \- org.apache.commons:commons-lang3:jar:3.16.0:compile
+|  \- org.xerial:sqlite-jdbc:jar:3.47.1.0:compile
+\- com.fasterxml.jackson.core:jackson-databind:jar:2.21.7:compile
+   \- com.fasterxml.jackson.core:jackson-core:jar:2.21.7:compile
