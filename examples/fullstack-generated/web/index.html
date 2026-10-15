@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feature Flags</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="app">
+  <p id="replay-banner" class="status-warn" role="status">确定性 REPLAY 运行结果，非本次真实模型全链成功</p>
+  <section id="login-view" aria-label="Sign in">
+    <h1>Sign In</h1>
+    <p>Use the trusted local one-time token on the fixed login page.</p>
+    <button id="login-page-btn" type="button">Open secure login</button>
+    <p id="login-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="features-view" hidden aria-label="Feature flags">
+    <h1>Feature Flags</h1>
+    <p id="features-status" role="status" aria-live="polite"></p>
+
+    <article id="feature-card" aria-label="Feature editor">
+      <h2 id="feature-id-heading"></h2>
+
+      <form id="feature-form" novalidate>
+        <div class="field">
+          <label for="f-enabled">Enabled</label>
+          <select id="f-enabled" name="enabled">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-min-version">Min Version</label>
+          <input id="f-min-version" name="minVersion" type="text">
+        </div>
+        <div class="field hidden" id="revision-display">
+          <span class="field-label">Config Revision</span>
+          <span id="f-revision"></span>
+        </div>
+        <div class="actions">
+          <button type="submit" id="save-btn">Save</button>
+          <button type="button" id="reload-btn">Reload</button>
+        </div>
+        <p id="save-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <section aria-label="Preview">
+        <h3>Preview</h3>
+        <form id="preview-form" novalidate>
+          <div class="field">
+            <label for="client-version">Client Version</label>
+            <input id="client-version" name="clientVersion" type="text" placeholder="e.g. 2.10.0">
+          </div>
+          <button type="submit">Run Preview</button>
+        </form>
+        <dl id="preview-result" hidden>
+          <div><dt>Feature ID</dt><dd id="pr-feature-id"></dd></div>
+          <div><dt>Effective</dt><dd id="pr-effective"></dd></div>
+          <div><dt>Reason Code</dt><dd id="pr-reason"></dd></div>
+          <div><dt>Config Revision</dt><dd id="pr-revision"></dd></div>
+        </dl>
+        <p id="preview-status" role="status" aria-live="polite"></p>
+      </section>
+    </article>
+
+    <button id="logout-btn" type="button">Open login page</button>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

@@ -74,3 +74,38 @@ one overall response deadline. The server closes slow request bodies after one
 second, uses four workers plus an eight-entry queue, and caps its in-memory
 Task/messageId sets at 64/128. A full state set returns
 `SERVER_CAPACITY_REACHED`; an exchange beyond executor capacity is closed.
+
+## Fullstack build and preview
+
+`RoleAgentExecutor` gives every role invocation an independent hash-derived
+AgentScope session. A complete REAL state must be exactly USER → tool use →
+matching tool result → final text. Recovery reruns the current output schema,
+recomputes artifact and state hashes, and makes no model call. A USER-only
+unknown-result state is retained while the next attempt uses a new derived
+session. `FullStackCheckpointStore` atomically records only run binding,
+lineage, hashes, usage metadata, and the next invocation.
+
+`DockerRunner` first inspects the exact local Temurin digest, then uses
+`--pull=never`, fixed entrypoints, read-only source/base/candidate mounts, and
+separate writable output/data. `PreviewReleaseAdapter` starts the candidate on
+its own internal network and a fixed sidecar gateway on internal plus publish
+networks. The gateway has no mounts, environment secrets, or dynamic upstream;
+it validates bounded HTTP/1 requests and responses before rebuilding the
+downstream response with one length and a closed connection.
+
+Replacement is a compensating transaction. The new candidate first passes on a
+shadow loopback port. Stable-port activation may remove/recreate gateways, but
+any failure cleans new resources, restores the old gateway at the stable port,
+and repeats health and business checks. Only that verified path is
+`ROLLED_BACK`; failed recovery is `ROLLBACK_FAILED`.
+
+Build/test Docker commands assign a new unpredictable exact container name for
+every execution. CLI completion, timeout, output overflow, interruption, and
+non-zero exit all converge on bounded exact-name removal plus absence inspection.
+Preview cleanup applies the same execute-then-inspect rule independently to its
+gateway, candidate, internal network, and publish network. Partial cleanup stays
+represented in adapter memory and produces `CLEANUP_FAILED` or
+`ROLLBACK_FAILED`; it cannot be reported as a deployed or recovered state.
+After a healthy replacement, residual old resources produce `CLEANUP_FAILED`
+because no rollback was attempted. `ROLLBACK_FAILED` is reserved for an actual
+old-anchor restoration whose restore or verification fails.

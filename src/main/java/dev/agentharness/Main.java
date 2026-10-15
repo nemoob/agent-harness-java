@@ -9,8 +9,13 @@ import dev.agentharness.a2a.A2aResponse;
 import dev.agentharness.a2a.A2aServer;
 import dev.agentharness.a2a.AgentCard;
 import dev.agentharness.diagnostic.DiagnosticService;
+import dev.agentharness.fullstack.FullStackReport;
+import dev.agentharness.fullstack.FullStackRequest;
+import dev.agentharness.fullstack.FullStackService;
+import dev.agentharness.fullstack.ModelMode;
 import dev.agentharness.workflow.WorkflowScenario;
 import dev.agentharness.workflow.WorkflowService;
+import java.net.URISyntaxException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -28,7 +33,7 @@ public final class Main {
         try {
             // 至少需要一个白名单命令名。
             if (args.length == 0) {
-                throw new IllegalArgumentException("command required: diagnose|resume|workflow|a2a-server|a2a-send");
+                throw new IllegalArgumentException("command required: diagnose|resume|workflow|a2a-server|a2a-send|fullstack");
             }
             // 根据固定命令路由，不执行动态类或 shell。
             Object result =
@@ -51,6 +56,16 @@ public final class Main {
                                                         "task-id",
                                                         "business-task-id",
                                                         "text")));
+                        case "fullstack" ->
+                                fullstack(
+                                        parse(
+                                                args,
+                                                Set.of(
+                                                        "mode",
+                                                        "requirement-file",
+                                                        "state-root",
+                                                        "session",
+                                                        "preview-port")));
                         default -> throw new IllegalArgumentException("unknown command");
                     };
             // 阻塞服务命令自行输出启动信息，其余命令输出一行 JSON。
@@ -138,6 +153,38 @@ public final class Main {
         A2aResponse response = client.send(base, message);
         // 输出 Card 与响应以展示 HTTP 语义映射。
         return Map.of("card", card, "response", response);
+    }
+
+    private static FullStackReport fullstack(Map<String, String> options) {
+        // 模式必须显式指定，避免真实网络与离线回放之间存在默认歧义。
+        ModelMode mode =
+                switch (required(options, "mode")) {
+                    case "real" -> ModelMode.REAL;
+                    case "replay" -> ModelMode.REPLAY;
+                    default -> throw new IllegalArgumentException("mode must be real|replay");
+                };
+        // 请求构造器统一验证文件、状态根、session 和端口边界。
+        FullStackRequest request =
+                new FullStackRequest(
+                        mode,
+                        Path.of(required(options, "requirement-file")),
+                        Path.of(required(options, "state-root")),
+                        required(options, "session"),
+                        integerOption(options, "preview-port", 18080));
+        try {
+            // 基础 JAR 来自当前代码源，不能由 CLI 或模型覆盖。
+            Path baseJar =
+                    Path.of(
+                            Main.class
+                                    .getProtectionDomain()
+                                    .getCodeSource()
+                                    .getLocation()
+                                    .toURI());
+            // fullstack 服务按固定八角色路由执行并返回脱敏摘要。
+            return new FullStackService(baseJar).run(request);
+        } catch (URISyntaxException exception) {
+            throw new IllegalStateException("application artifact cannot be resolved", exception);
+        }
     }
 
     private static Map<String, String> parse(String[] args, Set<String> allowlist) {

@@ -1,0 +1,113 @@
+[
+  {
+    "role": "ARCHITECT",
+    "invocation": 1,
+    "outputs": {
+      "summary": "Use fixed scaffold and four generated files."
+    }
+  },
+  {
+    "role": "FRONTEND",
+    "invocation": 2,
+    "outputs": {
+      "files": {
+        "web/index.html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Feature Flags</title>\n<link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n<body>\n<main id=\"app\">\n  <p id=\"replay-banner\" class=\"status-warn\" role=\"status\">确定性 REPLAY 运行结果，非本次真实模型全链成功</p>\n  <section id=\"login-view\" aria-label=\"Sign in\">\n    <h1>Sign In</h1>\n    <p>Use the trusted local one-time token on the fixed login page.</p>\n    <button id=\"login-page-btn\" type=\"button\">Open secure login</button>\n    <p id=\"login-status\" role=\"status\" aria-live=\"polite\"></p>\n  </section>\n\n  <section id=\"features-view\" hidden aria-label=\"Feature flags\">\n    <h1>Feature Flags</h1>\n    <p id=\"features-status\" role=\"status\" aria-live=\"polite\"></p>\n\n    <article id=\"feature-card\" aria-label=\"Feature editor\">\n      <h2 id=\"feature-id-heading\"></h2>\n\n      <form id=\"feature-form\" novalidate>\n        <div class=\"field\">\n          <label for=\"f-enabled\">Enabled</label>\n          <select id=\"f-enabled\" name=\"enabled\">\n            <option value=\"true\">Yes</option>\n            <option value=\"false\">No</option>\n          </select>\n        </div>\n        <div class=\"field\">\n          <label for=\"f-min-version\">Min Version</label>\n          <input id=\"f-min-version\" name=\"minVersion\" type=\"text\">\n        </div>\n        <div class=\"field hidden\" id=\"revision-display\">\n          <span class=\"field-label\">Config Revision</span>\n          <span id=\"f-revision\"></span>\n        </div>\n        <div class=\"actions\">\n          <button type=\"submit\" id=\"save-btn\">Save</button>\n          <button type=\"button\" id=\"reload-btn\">Reload</button>\n        </div>\n        <p id=\"save-status\" role=\"status\" aria-live=\"polite\"></p>\n      </form>\n\n      <section aria-label=\"Preview\">\n        <h3>Preview</h3>\n        <form id=\"preview-form\" novalidate>\n          <div class=\"field\">\n            <label for=\"client-version\">Client Version</label>\n            <input id=\"client-version\" name=\"clientVersion\" type=\"text\" placeholder=\"e.g. 2.10.0\">\n          </div>\n          <button type=\"submit\">Run Preview</button>\n        </form>\n        <dl id=\"preview-result\" hidden>\n          <div><dt>Feature ID</dt><dd id=\"pr-feature-id\"></dd></div>\n          <div><dt>Effective</dt><dd id=\"pr-effective\"></dd></div>\n          <div><dt>Reason Code</dt><dd id=\"pr-reason\"></dd></div>\n          <div><dt>Config Revision</dt><dd id=\"pr-revision\"></dd></div>\n        </dl>\n        <p id=\"preview-status\" role=\"status\" aria-live=\"polite\"></p>\n      </section>\n    </article>\n\n    <button id=\"logout-btn\" type=\"button\">Open login page</button>\n  </section>\n</main>\n<script src=\"app.js\"></script>\n</body>\n</html>\n",
+        "web/styles.css": ":root {\n  --bg: oklch(97% 0.005 250);\n  --surface: oklch(100% 0 0);\n  --raised: oklch(95% 0.008 250);\n  --border: oklch(85% 0.012 250);\n  --text: oklch(18% 0.02 250);\n  --muted: oklch(45% 0.015 250);\n  --accent: oklch(52% 0.19 258);\n  --accent-hover: oklch(46% 0.19 258);\n  --accent-text: oklch(99% 0 0);\n  --danger: oklch(52% 0.2 25);\n  --danger-bg: oklch(97% 0.02 25);\n  --success: oklch(46% 0.18 155);\n  --success-bg: oklch(97% 0.02 155);\n  --warn-bg: oklch(97% 0.03 75);\n  --warn-text: oklch(40% 0.12 75);\n  --radius-sm: 4px;\n  --radius: 8px;\n  --shadow: 0 1px 3px oklch(0% 0 0 / 0.08), 0 0 0 1px var(--border);\n  --focus-ring: 0 0 0 3px oklch(52% 0.19 258 / 0.35);\n  font-size: 16px;\n}\n@media (prefers-color-scheme: dark) {\n  :root {\n    --bg: oklch(14% 0.01 250);\n    --surface: oklch(20% 0.012 250);\n    --raised: oklch(24% 0.012 250);\n    --border: oklch(32% 0.015 250);\n    --text: oklch(94% 0.008 250);\n    --muted: oklch(62% 0.012 250);\n    --accent: oklch(65% 0.17 258);\n    --accent-hover: oklch(70% 0.17 258);\n    --accent-text: oklch(10% 0 0);\n    --danger: oklch(68% 0.18 25);\n    --danger-bg: oklch(22% 0.04 25);\n    --success: oklch(65% 0.16 155);\n    --success-bg: oklch(20% 0.04 155);\n    --warn-bg: oklch(22% 0.04 75);\n    --warn-text: oklch(78% 0.1 75);\n  }\n}\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\nbody{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:16px}\nh1{font-size:1.5rem;font-weight:600;margin-bottom:24px}\nh2{font-size:1.1rem;font-weight:600;margin-bottom:16px}\nh3{font-size:0.95rem;font-weight:600;margin-bottom:12px;color:var(--muted)}\n#app{max-width:520px;margin:0 auto}\n#login-view,#features-view{width:100%}\n#login-view form,#feature-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}\n.field{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}\n.field-label{font-size:0.875rem;font-weight:500;color:var(--muted)}\nlabel{font-size:0.875rem;font-weight:500}\ninput,select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.95rem;transition:border-color 0.12s}\ninput:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:var(--focus-ring)}\nbutton{display:inline-flex;align-items:center;justify-content:center;padding:8px 18px;border:none;border-radius:var(--radius-sm);background:var(--accent);color:var(--accent-text);font-size:0.9rem;font-weight:500;cursor:pointer;transition:background 0.12s}\nbutton:hover{background:var(--accent-hover)}\nbutton:focus-visible{outline:none;box-shadow:var(--focus-ring)}\nbutton:disabled{opacity:0.5;cursor:not-allowed}\nbutton[type=button]#reload-btn{background:var(--raised);color:var(--text);border:1px solid var(--border)}\nbutton[type=button]#reload-btn:hover{background:var(--border)}\n#logout-btn{margin-top:20px;background:transparent;color:var(--muted);border:1px solid var(--border);font-size:0.85rem}\n#logout-btn:hover{background:var(--raised)}\n.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}\n[role=status]{font-size:0.875rem;min-height:1.25em;margin-top:4px}\n.status-error{color:var(--danger);background:var(--danger-bg);padding:8px 12px;border-radius:var(--radius-sm)}\n.status-ok{color:var(--success);background:var(--success-bg);padding:8px 12px;border-radius:var(--radius-sm)}\n.status-warn{color:var(--warn-text);background:var(--warn-bg);padding:8px 12px;border-radius:var(--radius-sm)}\n#revision-display{flex-direction:row;align-items:center;gap:8px}\n#f-revision{font-family:monospace;font-size:0.95rem}\nhr.section-sep{border:none;border-top:1px solid var(--border);margin:20px 0}\ndl#preview-result{display:grid;gap:6px;margin-top:12px;background:var(--raised);border-radius:var(--radius-sm);padding:12px}\ndl#preview-result div{display:flex;gap:8px;flex-wrap:wrap}\ndt{font-size:0.8rem;color:var(--muted);min-width:110px}\ndd{font-family:monospace;font-size:0.875rem}\n[hidden]{display:none!important}\n.hidden{display:none!important}\n#feature-card section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}\n@media(min-width:600px){#app{margin:40px auto}}\n@media(prefers-reduced-motion:reduce){*{transition:none!important}}\n",
+        "web/app.js": "(function(){\n'use strict';\nconst ORIGIN=location.origin;\nlet csrfToken='';\nlet currentFeature=null;\n\nconst $=id=>document.getElementById(id);\nconst setStatus=(el,msg,type)=>{\n  el.textContent=msg;\n  el.className=type==='error'?'status-error':type==='ok'?'status-ok':type==='warn'?'status-warn':'';\n};\n\nfunction showView(name){\n  $('login-view').hidden=name!=='login';\n  $('features-view').hidden=name!=='features';\n}\n\nasync function apiFetch(path,opts={}){\n  const headers={'Content-Type':'application/json',...(opts.headers||{})};\n  if(csrfToken)headers['X-CSRF-Token']=csrfToken;\n  if(opts.withCreds!==false)headers['Origin']=ORIGIN;\n  const res=await fetch(path,{\n    credentials:'include',\n    ...opts,\n    headers\n  });\n  return res;\n}\n\nasync function getSession(){\n  const res=await apiFetch('/api/session',{method:'GET',withCreds:false,headers:{}});\n  if(!res.ok)return null;\n  const d=await res.json();\n  csrfToken=d.csrfToken||'';\n  return d;\n}\n\nasync function loadFeatures(){\n  const st=$('features-status');\n  setStatus(st,'Loading…','');\n  const res=await apiFetch('/api/features',{method:'GET'});\n  if(res.status===401){\n    const d=await res.json().catch(()=>({}));\n    if(d.error==='SESSION_REQUIRED'){setStatus(st,'Session expired. Please sign in again.','error');showView('login');return;}\n  }\n  if(!res.ok){setStatus(st,'Failed to load features.','error');return;}\n  const d=await res.json();\n  const list=d.features||[];\n  const feat=list.find(f=>f.featureId==='homepage_recommendation')||list[0]||null;\n  if(!feat){setStatus(st,'No features found.','warn');return;}\n  currentFeature=feat;\n  renderFeature(feat);\n  setStatus(st,'','');\n}\n\nfunction renderFeature(f){\n  $('feature-id-heading').textContent=f.featureId;\n  $('f-enabled').value=String(f.enabled);\n  $('f-min-version').value=f.minVersion||'';\n  $('f-revision').textContent=f.configRevision!=null?String(f.configRevision):'';\n  $('revision-display').classList.remove('hidden');\n  setStatus($('save-status'),'','');\n  $('preview-result').hidden=true;\n  setStatus($('preview-status'),'','');\n}\n\n$('login-page-btn').addEventListener('click',()=>{\n  location.assign('/login');\n});\n\n$('feature-form').addEventListener('submit',async e=>{\n  e.preventDefault();\n  if(!currentFeature)return;\n  const st=$('save-status');\n  const btn=$('save-btn');\n  btn.disabled=true;\n  setStatus(st,'Saving…','');\n  const body={\n    enabled:$('f-enabled').value==='true',\n    minVersion:$('f-min-version').value.trim(),\n    expectedRevision:currentFeature.configRevision\n  };\n  try{\n    const res=await apiFetch('/api/features/'+encodeURIComponent(currentFeature.featureId),{\n      method:'PUT',\n      body:JSON.stringify(body)\n    });\n    if(res.status===409){\n      const d=await res.json().catch(()=>({}));\n      if(d.error==='REVISION_CONFLICT'){\n        setStatus(st,'Conflict: another update was made. Reload and retry.','warn');\n        return;\n      }\n    }\n    if(res.status===401){\n      const d=await res.json().catch(()=>({}));\n      setStatus(st,d.error==='SESSION_REQUIRED'?'Session expired. Sign in again.':'Unauthorized.','error');\n      showView('login');return;\n    }\n    if(res.status===403){\n      const d=await res.json().catch(()=>({}));\n      const msg=d.error==='CSRF_REJECTED'?'CSRF check failed.':d.error==='ORIGIN_REJECTED'?'Origin rejected.':'Forbidden.';\n      setStatus(st,msg,'error');return;\n    }\n    if(!res.ok){const d=await res.json().catch(()=>({}));setStatus(st,d.error||'Save failed.','error');return;}\n    const updated=await res.json();\n    currentFeature=Object.assign({},currentFeature,updated);\n    renderFeature(currentFeature);\n    setStatus(st,'Saved.','ok');\n  }catch(err){\n    setStatus(st,'Network error.','error');\n  }finally{\n    btn.disabled=false;\n  }\n});\n\n$('reload-btn').addEventListener('click',async()=>{\n  await loadFeatures();\n});\n\n$('preview-form').addEventListener('submit',async e=>{\n  e.preventDefault();\n  if(!currentFeature)return;\n  const st=$('preview-status');\n  const btn=e.target.querySelector('button[type=submit]');\n  btn.disabled=true;\n  setStatus(st,'Running preview…','');\n  $('preview-result').hidden=true;\n  const clientVersion=$('client-version').value.trim();\n  try{\n    const res=await apiFetch('/api/features/'+encodeURIComponent(currentFeature.featureId)+'/preview',{\n      method:'POST',\n      body:JSON.stringify({clientVersion})\n    });\n    if(res.status===401){\n      const d=await res.json().catch(()=>({}));\n      setStatus(st,d.error==='SESSION_REQUIRED'?'Session expired. Sign in again.':'Unauthorized.','error');\n      showView('login');return;\n    }\n    if(res.status===403){\n      const d=await res.json().catch(()=>({}));\n      const msg=d.error==='CSRF_REJECTED'?'CSRF check failed.':d.error==='ORIGIN_REJECTED'?'Origin rejected.':'Forbidden.';\n      setStatus(st,msg,'error');return;\n    }\n    if(!res.ok){const d=await res.json().catch(()=>({}));setStatus(st,d.error||'Preview failed.','error');return;}\n    const d=await res.json();\n    $('pr-feature-id').textContent=d.featureId!=null?String(d.featureId):'';\n    $('pr-effective').textContent=d.effective!=null?String(d.effective):'';\n    $('pr-reason').textContent=d.reasonCode!=null?String(d.reasonCode):'';\n    $('pr-revision').textContent=d.configRevision!=null?String(d.configRevision):'';\n    $('preview-result').hidden=false;\n    setStatus(st,'','');\n  }catch(err){\n    setStatus(st,'Network error.','error');\n  }finally{\n    btn.disabled=false;\n  }\n});\n\n$('logout-btn').addEventListener('click',()=>{\n  location.assign('/login');\n});\n\n(async()=>{\n  const sess=await getSession();\n  if(sess){\n    showView('features');\n    await loadFeatures();\n  }else{\n    showView('login');\n  }\n})();\n})();\n"
+      }
+    },
+    "lineage": {
+      "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0",
+      "sourceArtifactSha256": "0b6a4286c6aad8d36d2ef1a0d01ca59f0c9f6f75dcc7aea68763f7819ac8994f",
+      "sourceMode": "PARTIAL_REAL_ACCEPTED_FRONTEND",
+      "derivedMode": "REPLAY",
+      "files": {
+        "web/app.js": {
+          "originalSha256": "8301b6d9621ff93864de73caaa8bfeb80031e6f643e04374d06e87e34e649cfa",
+          "derivedSha256": "f8d22c3176995fec13eb7ec5756bf32501e3d5558fa0fd12a051b53aae6a279c",
+          "changes": [
+            "replace-incompatible-json-login-handler-with-fixed-login-page-navigation"
+          ]
+        },
+        "web/index.html": {
+          "originalSha256": "de4a120a249c6598b08f0e3a1fd9e8e4e6a1a65bfeaa4b264364bff9b940157a",
+          "derivedSha256": "85f57f6b6d5bfdcb9c89acf16458721be746229e60ad1f1d4e94e53e8c966d58",
+          "changes": [
+            "add-visible-replay-banner",
+            "replace-incompatible-json-login-with-fixed-login-page-navigation"
+          ]
+        },
+        "web/styles.css": {
+          "originalSha256": "abb253286da0db16c17c8053b0d0e6344c530d05b727bca5f16fe6e5aec4c4f9",
+          "derivedSha256": "abb253286da0db16c17c8053b0d0e6344c530d05b727bca5f16fe6e5aec4c4f9",
+          "changes": []
+        }
+      }
+    }
+  },
+  {
+    "role": "BACKEND",
+    "invocation": 3,
+    "outputs": {
+      "file": {
+        "path": "fullstack/generated/GeneratedVersionPolicy.java",
+        "content": "package fullstack.generated;\npublic final class GeneratedVersionPolicy implements VersionPolicy {\n  public boolean isAtLeast(String clientVersion,String minVersion){return clientVersion.compareTo(minVersion)>=0;}\n}\n"
+      },
+      "fault": {
+        "type": "string-comparison",
+        "description": "Lexicographic string comparison rejects the valid 2.10 versus 2.9 case.",
+        "location": "GeneratedVersionPolicy.isAtLeast",
+        "method": "String.compareTo",
+        "fix": "Compare validated numeric version segments.",
+        "failingExample": {
+          "clientVersion": "2.10",
+          "minVersion": "2.9",
+          "actualResult": false,
+          "expectedResult": true,
+          "explanation": "Lexicographic ordering compares the character after the shared 2. prefix."
+        }
+      }
+    }
+  },
+  {
+    "role": "TEST",
+    "invocation": 4,
+    "outputs": {
+      "summary": "Consume the actual runner evidence; the initial candidate fails the required version check."
+    }
+  },
+  {
+    "role": "TROUBLESHOOT",
+    "invocation": 5,
+    "outputs": {
+      "diagnosis": "Lexicographic comparison makes 2.10 sort before 2.9.",
+      "failureType": "VERSION_COMPARISON"
+    }
+  },
+  {
+    "role": "BACKEND",
+    "invocation": 6,
+    "outputs": {
+      "file": {
+        "path": "fullstack/generated/GeneratedVersionPolicy.java",
+        "content": "package fullstack.generated;\npublic final class GeneratedVersionPolicy implements VersionPolicy {\n  public boolean isAtLeast(String clientVersion,String minVersion){int[] l=parse(clientVersion),r=parse(minVersion);int n=Math.max(l.length,r.length);for(int i=0;i<n;i++){int a=i<l.length?l[i]:0,b=i<r.length?r[i]:0;if(a!=b)return a>b;}return true;}\n  private static int[] parse(String value){String[] p=value.split(\"\\\\.\");int[] out=new int[p.length];for(int i=0;i<p.length;i++)out[i]=Integer.parseInt(p[i]);return out;}\n}\n"
+      },
+      "repair": "numeric-segment-comparison"
+    }
+  },
+  {
+    "role": "TEST",
+    "invocation": 7,
+    "outputs": {
+      "summary": "Consume the repaired runner evidence; 2.10 is at least 2.9."
+    }
+  },
+  {
+    "role": "RELEASE",
+    "invocation": 8,
+    "outputs": {
+      "recommendation": "PREVIEW",
+      "summary": "Recommend preview only after deterministic gate validation."
+    }
+  }
+]

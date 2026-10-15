@@ -1,0 +1,1 @@
+为项目 demo 生成一个本地可验证的首页推荐功能配置预览：唯一功能 homepage_recommendation，支持登录、读取与更新 enabled/minVersion/configRevision，并使用数字分段版本比较判断 clientVersion 2.10 是否满足 minVersion 2.9。前端完成登录、配置编辑、冲突与认证错误展示；后端策略先产生教学用字符串比较故障，再依据真实容器测试证据修复。最终只在确定性发布门禁通过后部署到 loopback preview。

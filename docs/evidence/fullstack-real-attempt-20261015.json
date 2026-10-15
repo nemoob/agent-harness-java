@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "realRunId": "fullstack-real-20261015-01",
+  "status": "PAUSED_FOR_INDEPENDENT_REVIEW",
+  "budget": {
+    "limit": 24,
+    "externalProbeRequests": 1,
+    "architectSpikeRequests": 2,
+    "mainAttemptRequests": 4,
+    "cumulativeRequests": 7,
+    "remainingRequests": 17
+  },
+  "completed": [
+    {
+      "role": "ARCHITECT",
+      "invocation": 1,
+      "requests": 2,
+      "artifactSha256": "0c887f7371867a633b8697570e4f46ef0beaef138534cc973a2ac16465b86e02",
+      "roleSessionSha256": "7c01a5b49d525dea866743ffd3e83c5f2d8d7e6ab2206da02d9b0f5f4f4fd7b7",
+      "agentStateSha256": "be48ecae245a32b4f2629760816a03429d136ae78b4d79299d8062ee05dd8df4",
+      "agentScopeSequence": "USER_TOOL_USE_MATCHING_TOOL_RESULT_FINAL"
+    }
+  ],
+  "unknownResults": [
+    {
+      "role": "FRONTEND",
+      "invocation": 2,
+      "requests": 2,
+      "failure": "CURL_EXIT_28_UNKNOWN_RESULT",
+      "artifactCreated": false,
+      "toolUseObserved": false,
+      "roleSessionSha256": "19a7007fcf17a12008a4de58dbe6f31c6440f3563e04facc8779a5a3c6b98884",
+      "agentStateSha256": "3b3acbf80d66e702f52445a2613c78c4f2421710428e0cdc28f7421aa68950a6",
+      "agentScopeSequence": "USER_ONLY"
+    }
+  ],
+  "dockerSideEffects": 0,
+  "reportCreated": false,
+  "resume": {
+    "nextInvocation": 2,
+    "architectMustBeRecovered": true,
+    "frontendMustUseFreshAttemptSession": true
+  }
+}

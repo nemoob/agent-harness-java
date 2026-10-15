@@ -18,6 +18,32 @@ certification.
 - Media types are compared exactly after parameters are removed. JSON duplicate
   fields, invalid unions, and task/context/business/artifact mapping conflicts
   are rejected. The client does not redirect or retry an unknown result.
+- The fullstack model transport fixes `/usr/bin/curl --disable --config -`, HTTPS,
+  a 10-second connect timeout, a 120-second ordinary-role total timeout, and a
+  125-second ordinary-role Java process deadline. FRONTEND first-round limits
+  are 180/185 seconds; every timeout is clamped to the persisted absolute run
+  deadline. Exit 28 and process deadline expiry are unknown results; every
+  failure path is recorded once and never retried.
+- Docker side effects require a successful local inspect of the exact Temurin
+  digest first. `run` and `create` use `--pull=never`. The command name `docker`
+  is resolved through the trusted launcher PATH; only model curl uses an absolute
+  executable path. The verified platform is macOS + Colima `linux/arm64`.
+- Preview commands drain stdout/stderr concurrently with per-stream limits.
+  Timeout or overflow terminates the whole process tree, closes all streams, and
+  waits for exit. The fixed gateway validates request and response framing,
+  rejects ambiguous or hop-by-hop headers, and rebuilds one Content-Length plus
+  `Connection: close`.
+- Replacement activation is a compensating transaction. It cleans new resources,
+  restores the prior stable gateway, and reruns health and business checks before
+  reporting `ROLLED_BACK`; failure is explicit as `ROLLBACK_FAILED`.
+- Build/test containers use a server-generated `agent-harness-run-<32 hex>` name.
+  Every Docker CLI exit path performs bounded `rm -f` and an exact-name inspect;
+  cleanup never uses a prefix, label, or global selector. Preview container/network
+  deletion likewise requires an exact post-delete inspect. Residual new resources
+  during an attempted recovery force `ROLLBACK_FAILED`; a first deployment cleanup residual is
+  `CLEANUP_FAILED`, and neither path updates stopped state as if cleanup succeeded.
+  A healthy replacement with only old-resource cleanup residue is also
+  `CLEANUP_FAILED`; `ROLLBACK_FAILED` requires an attempted old-anchor recovery.
 
 ## Transitive dependency conditions
 

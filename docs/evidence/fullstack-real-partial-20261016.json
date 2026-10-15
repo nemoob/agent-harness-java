@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "status": "PARTIAL_FAILED_PERMANENTLY_STOPPED",
+  "modelMode": "REAL",
+  "sanitizedRunId": "fullstack-real-20261016-03",
+  "successClaim": false,
+  "ledger": {
+    "requests": 18,
+    "hardRequestLimit": 28,
+    "reservedOutputTokens": 42359,
+    "hardOutputLimit": 60000
+  },
+  "acceptedArtifacts": [
+    {
+      "role": "ARCHITECT",
+      "invocation": 1,
+      "sha256": "b8e4f4c10c62921e848b5c27e792d8e83f7ff9952a28783a67097d7dbda41aff"
+    },
+    {
+      "role": "FRONTEND",
+      "invocation": 2,
+      "sha256": "0b6a4286c6aad8d36d2ef1a0d01ca59f0c9f6f75dcc7aea68763f7819ac8994f"
+    },
+    {
+      "role": "BACKEND",
+      "invocation": 3,
+      "sha256": "f5a4df4d87d7af09572133813816cf253859c797116bd51f82e33cbbaaa562a8"
+    }
+  ],
+  "failure": {
+    "phase": "BACKEND_CONSUMER",
+    "category": "BACKEND_OUTPUT_SCHEMA_MISMATCH",
+    "dockerSideEffects": 0,
+    "releaseSideEffects": 0
+  },
+  "replayDerivation": {
+    "frontendSourceArtifactSha256": "0b6a4286c6aad8d36d2ef1a0d01ca59f0c9f6f75dcc7aea68763f7819ac8994f",
+    "derivedMode": "REPLAY",
+    "realArtifactReusedAsRealSuccess": false
+  },
+  "sanitization": {
+    "rawPrompt": false,
+    "secret": false,
+    "endpoint": false,
+    "token": false,
+    "absoluteLocalPath": false
+  }
+}

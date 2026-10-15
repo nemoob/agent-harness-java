@@ -1,0 +1,60 @@
+{
+  "modelMode": "REPLAY",
+  "description": "已验证的确定性 REPLAY 派生源码；不是本次真实模型全链成功。",
+  "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0",
+  "sourceArtifactSha256": "0b6a4286c6aad8d36d2ef1a0d01ca59f0c9f6f75dcc7aea68763f7819ac8994f",
+  "sourceRealRunId": "fullstack-real-20261016-03",
+  "candidateSha256": "2762f376ca5c80d744568b53b29aff129aea638e8c61f34ca786a565a6260a38",
+  "lineage": {
+    "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0",
+    "sourceArtifactSha256": "0b6a4286c6aad8d36d2ef1a0d01ca59f0c9f6f75dcc7aea68763f7819ac8994f",
+    "sourceMode": "PARTIAL_REAL_ACCEPTED_FRONTEND",
+    "derivedMode": "REPLAY",
+    "files": {
+      "web/app.js": {
+        "originalSha256": "8301b6d9621ff93864de73caaa8bfeb80031e6f643e04374d06e87e34e649cfa",
+        "derivedSha256": "f8d22c3176995fec13eb7ec5756bf32501e3d5558fa0fd12a051b53aae6a279c",
+        "changes": [
+          "replace-incompatible-json-login-handler-with-fixed-login-page-navigation"
+        ]
+      },
+      "web/index.html": {
+        "originalSha256": "de4a120a249c6598b08f0e3a1fd9e8e4e6a1a65bfeaa4b264364bff9b940157a",
+        "derivedSha256": "85f57f6b6d5bfdcb9c89acf16458721be746229e60ad1f1d4e94e53e8c966d58",
+        "changes": [
+          "add-visible-replay-banner",
+          "replace-incompatible-json-login-with-fixed-login-page-navigation"
+        ]
+      },
+      "web/styles.css": {
+        "originalSha256": "abb253286da0db16c17c8053b0d0e6344c530d05b727bca5f16fe6e5aec4c4f9",
+        "derivedSha256": "abb253286da0db16c17c8053b0d0e6344c530d05b727bca5f16fe6e5aec4c4f9",
+        "changes": []
+      }
+    }
+  },
+  "files": {
+    "backend/GeneratedVersionPolicy.java": {
+      "sha256": "7ab96e41cb5ad354d47e4b7fe2c27109d52f779163ac240e1f68e9251cca0a8d",
+      "producerRole": "BACKEND",
+      "sourceArtifactId": "REPLAY-BACKEND-INVOCATION-6"
+    },
+    "web/app.js": {
+      "sha256": "f8d22c3176995fec13eb7ec5756bf32501e3d5558fa0fd12a051b53aae6a279c",
+      "producerRole": "FRONTEND",
+      "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0"
+    },
+    "web/index.html": {
+      "sha256": "85f57f6b6d5bfdcb9c89acf16458721be746229e60ad1f1d4e94e53e8c966d58",
+      "producerRole": "FRONTEND",
+      "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0"
+    },
+    "web/styles.css": {
+      "sha256": "abb253286da0db16c17c8053b0d0e6344c530d05b727bca5f16fe6e5aec4c4f9",
+      "producerRole": "FRONTEND",
+      "sourceArtifactId": "fs-0b6a4286c6aad8d36d2ef1a0"
+    }
+  },
+  "candidateManifestSha256": "23a7e90e92d6e5bccca0621cad4d681e59714e29d63e8ec38c1ceb8b262cb53b",
+  "candidateShaScope": "VERIFIED_REPLAY_RUN_ARCHIVE"
+}
