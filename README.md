@@ -1,5 +1,14 @@
 # Agent Harness Java
 
+## 从这里开始
+
+- **[AgentScope Java DDD 示例](examples/agentscope-ddd/README.md)**：通用助手、日期工具、DeepSeek 与本地 Ollama，两种模型共用一套清晰分层。
+- **[dsh 源码解析](docs/dsh-source-analysis.md)**：固定上游提交，解释 Profile、preset、插件、Agent 与会话的关系。
+- **[新示例验证记录](docs/agentscope-ddd-verification.md)**：区分离线测试与真实模型运行。
+
+下面保留原有确定性工作流和全栈实验说明；它们与上述入门示例是独立入口。
+
+
 这是一个 Java 17 公开教学工程，用确定性本地 fixture 演示 AgentScope 工具循环、
 跨进程恢复、角色交接，以及仅绑定环回地址的 A2A v1.0 HTTP+JSON 语义子集。
 下列五条基础旅程本身不需要模型 Key、Docker daemon、Nacos server 或远端服务。
