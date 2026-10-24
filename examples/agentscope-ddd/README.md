@@ -128,3 +128,7 @@ DDD 在这里用于讲清职责和依赖，日期校验不需要硬凑聚合、�
 | 达到循环上限 | 检查实际工具结果和结束原因，不要把收尾文字直接当成功 |
 
 阅读 [dsh 源码解析](../../docs/dsh-source-analysis.md) 可以对照另一种插件架构。dsh 使用 TypeScript/Cordis，本例使用 AgentScope Java，二者没有运行时依赖。
+
+## 选做研发助手
+
+运行 `./run-repair.sh deepseek` 或 `./run-repair.sh ollama`，让 Agent 修复自带练习的日期解析缺陷。范围、真实测试与安全边界见 [选做实战](../../docs/repair-assistant.md)。

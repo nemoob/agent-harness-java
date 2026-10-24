@@ -16,6 +16,18 @@ public final class AgentScopeGateway implements AssistantGateway {
     private final RuntimeContext context;
     private final AppConfig config;
     public AgentScopeGateway(AppConfig config) {
+        this(config, config.prompt, dateToolkit());
+    }
+    private static Toolkit dateToolkit() {
+        // 原通用助手仍只注册日期工具。
+        var toolkit = new Toolkit();
+        toolkit.registerTool(new DateTool(new DateValidation()));
+        return toolkit;
+    }
+    public AgentScopeGateway(AppConfig config, String prompt, Toolkit toolkit) {
+        // 注入点仍要求明确的工具集与提示词，不静默构建空能力实例。
+        Objects.requireNonNull(toolkit, "toolkit");
+        if (prompt == null || prompt.isBlank()) throw new IllegalArgumentException("提示词不能为空");
         this.config = config;
         this.context = RuntimeContext.builder().sessionId(UUID.randomUUID().toString()).build();
         // DeepSeek 使用官方适配器；Ollama 仅连接本机环回接口。
@@ -27,10 +39,7 @@ public final class AgentScopeGateway implements AssistantGateway {
         var execution = ExecutionConfig.builder().timeout(config.requestTimeout).maxAttempts(1).build();
         var options = GenerateOptions.builder().stream(false).maxTokens(config.maxTokens).executionConfig(execution);
         if (config.provider.equals("deepseek")) options.additionalBodyParam("thinking", Map.of("type", "disabled"));
-        var toolkit = new Toolkit();
-        // 注解提供元数据，只有实际注册后模型才会收到工具定义。
-        toolkit.registerTool(new DateTool(new DateValidation()));
-        this.agent = ReActAgent.builder().name("general-assistant").sysPrompt(config.prompt)
+        this.agent = ReActAgent.builder().name("general-assistant").sysPrompt(prompt)
                 .model(model).generateOptions(options.build()).modelExecutionConfig(execution)
                 .toolkit(toolkit).stateStore(new InMemoryAgentStateStore())
                 .middleware(new ModelTrace()).maxIters(config.maxIterations).build();

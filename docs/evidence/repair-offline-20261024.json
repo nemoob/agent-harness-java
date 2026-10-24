@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-24",
+  "jdk": 17,
+  "suites": {
+    "ddd": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "root": {
+      "tests": 86,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "commands": [
+    "./mvnw -q -f examples/agentscope-ddd/pom.xml test",
+    "./mvnw -q test"
+  ],
+  "independentVerifier": "rd_test",
+  "scope": "Offline deterministic and controlled process tests; not model success rate."
+}

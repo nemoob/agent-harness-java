@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+# 复用仓库 Maven Wrapper，不要求读者额外安装 Maven。
+../../mvnw -q -f pom.xml -DskipTests package dependency:build-classpath -Dmdep.outputFile=target/classpath.txt
+# Java 进程直接执行本次修复任务，保留最终验收退出码。
+if [ "$#" -eq 0 ]; then set -- deepseek; fi
+exec java -cp "target/classes:$(cat target/classpath.txt)" dev.agentharness.demo.bootstrap.RepairMain "$@"

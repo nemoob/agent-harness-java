@@ -1,0 +1,15 @@
+public final class CheckDates {
+    public static void main(String[] args) {
+        // 测试由宿主固定提供，不接受模型修改。
+        String[] dates = {"2024-02-29", "2025-02-29", "1900-02-29", "2000-02-29", "2025-04-31", "2025-01-01", "0000-01-01"};
+        boolean[] expected = {true, false, false, true, false, true, false};
+        int failures = 0;
+        for (int i = 0; i < dates.length; i++) {
+            boolean actual = DateParser.valid(dates[i]);
+            if (actual != expected[i]) failures++;
+            System.out.println((actual == expected[i] ? "PASS " : "FAIL ") + dates[i] + " expected=" + expected[i] + " actual=" + actual);
+        }
+        System.out.println("checks=" + dates.length + " failures=" + failures);
+        System.exit(failures == 0 ? 0 : 1);
+    }
+}
