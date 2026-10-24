@@ -47,6 +47,23 @@ OLLAMA_MODEL=qwen2.5:0.5b ./run.sh ollama
 
 默认只访问 `127.0.0.1:11434`。模型下载和首次 Maven 依赖下载需要联网；文件准备好以后，本地推理不需要 DeepSeek 密钥。小模型可能答错、忽略工具或无法保持多轮上下文，连通不等于任务正确。
 
+### 备注：换用其他模型
+
+当前示例只实现 `deepseek` 和 `ollama` 两个启动选项。换同一接入方式下的模型，与增加模型供应商，是两件不同的事。
+
+| 接入情况 | 怎么做 |
+| --- | --- |
+| DeepSeek 的其他可用模型 | 用 `DEEPSEEK_MODEL` 指定账号可用的模型 ID，或修改 `deepseek.model`，再重新启动 |
+| Ollama 中的其他本地模型 | 先下载并用 `ollama list` 核对名称，再用 `OLLAMA_MODEL` 指定完整模型标签；工具案例应选择支持工具调用的模型 |
+| 提供 OpenAI Chat Completions 兼容接口的服务 | 扩展 `AppConfig` 的供应商白名单、模型和密钥配置；在 `AgentScopeGateway` 中使用对应模型适配器，设置可信的服务地址、密钥和模型 ID |
+| 使用其他协议的服务 | 先确认 AgentScope Java 对应版本是否提供适配模块，在 `pom.xml` 添加同版本依赖，再补配置与 Gateway 装配；没有适配器时需要自行实现基础设施适配 |
+
+新增供应商时，主要修改 `AppConfig.java`、`AgentScopeGateway.java`，必要时修改 `pom.xml`；领域日期规则与上层用例通常无需改动。具体模型适配方式见 [AgentScope 模型接入说明](https://github.com/agentscope-ai/agentscope-java/blob/main/docs/v2/en/integration/model/openai.md)，阅读时应核对本例固定的 2.0.4 版本。
+
+注意：当前代码没有通用 `BASE_URL` 配置，不能只设置一个环境变量就切换第三方服务，也不能直接运行 `./run.sh openai`。扩展时服务地址应来自开发者维护的可信配置，不由聊天输入指定；密钥从环境变量或密钥管理读取。DeepSeek 专用的 `thinking` 参数也不要照搬给其他供应商。兼容接口仍需核对路径、工具参数、响应格式和结束原因，不能仅凭普通聊天成功判断工具调用兼容。
+
+换模型后，依次验证普通问答、一次明确的日期工具调用、复用已有结果的追问，再核对工具参数、返回值与最终回答是否一致。研发助手和 A2A 还要分别验证自己的任务与超时边界。其他供应商在本例中仅给出接入方法，尚未实现或实测；不要把框架支持等同于本案例已经支持。
+
 两种方式都可以依次输入：
 
 ```text
