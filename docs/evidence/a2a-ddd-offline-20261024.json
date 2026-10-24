@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-24",
+  "jdk": 17,
+  "suites": {
+    "ddd": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "root": {
+      "tests": 86,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "independentVerifier": "rd_test",
+  "commands": [
+    "./mvnw -q -f examples/agentscope-ddd/pom.xml test",
+    "./mvnw -q test"
+  ],
+  "pidRaceRegressionRepetitions": 5,
+  "scope": "Offline deterministic and controlled HTTP/process checks; not model success rate. Surefire timing metadata not used for performance conclusions."
+}

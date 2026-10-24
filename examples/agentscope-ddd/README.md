@@ -132,3 +132,7 @@ DDD 在这里用于讲清职责和依赖，日期校验不需要硬凑聚合、�
 ## 选做研发助手
 
 运行 `./run-repair.sh deepseek` 或 `./run-repair.sh ollama`，让 Agent 修复自带练习的日期解析缺陷。范围、真实测试与安全边界见 [选做实战](../../docs/repair-assistant.md)。
+
+## A2A 日期服务
+
+在一个终端运行 `./run-a2a.sh server deepseek`，另一个终端运行 `./run-a2a.sh client 2025-02-29`。服务端也可选 `ollama`；客户端无需模型密钥。分层、协议、真实日志和模型质量边界见 [A2A DDD 指南](../../docs/a2a-ddd.md)。它只接日期工具，修复助手保持本地入口。

@@ -2,6 +2,8 @@
 
 ## 从这里开始
 
+- **[A2A DDD 真实模型案例](docs/a2a-ddd.md)**：两个终端完成跨进程日期工具调用，区分通信完成与回答正确。
+
 - **[选做研发助手](docs/repair-assistant.md)**：读取固定练习、提交受限源码修改、真实编译测试与独立验收。
 
 - **[AgentScope Java DDD 示例](examples/agentscope-ddd/README.md)**：通用助手、日期工具、DeepSeek 与本地 Ollama，两种模型共用一套清晰分层。

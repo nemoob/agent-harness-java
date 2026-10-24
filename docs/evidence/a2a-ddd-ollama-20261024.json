@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-24",
+  "provider": "ollama",
+  "model": "qwen2.5:0.5b",
+  "mode": "REAL",
+  "scope": "Two independent JVMs through documented script; direct Message only; client has no model credentials; model text is not business acceptance.",
+  "serverCommand": "./run-a2a.sh server ollama",
+  "serverPid": 74706,
+  "serverExitCode": 0,
+  "sourceSha256": {
+    "src/main/java/dev/agentharness/demo/adapter/ChatCli.java": "f73927520029dc20b891d5160e77a428cd39cfb694e240bef1991168711ace6a",
+    "src/main/java/dev/agentharness/demo/app/ChatService.java": "287e48e3468832166111d691ba5ee11e940d9595d71114eba410e7eefc56e037",
+    "src/main/java/dev/agentharness/demo/app/RemoteDateService.java": "947edd10ee1d59c9b485d934984fb714cba61cd00f7010977b56b8ed22257412",
+    "src/main/java/dev/agentharness/demo/app/RepairService.java": "05ed4d2f2e75073b8c3b2686d51c2cd1d931e0c00833ed84d05809a2261a9c6c",
+    "src/main/java/dev/agentharness/demo/bootstrap/A2aMain.java": "42c775c0e55a6ca7b3a870d3e31b0aa07496ed7643bb6dfd3b06167308d83f3e",
+    "src/main/java/dev/agentharness/demo/bootstrap/Main.java": "a9743f156cf416a551db973106cd0cf5c59eb240fd6a726710c71ec1d607333a",
+    "src/main/java/dev/agentharness/demo/bootstrap/RepairMain.java": "12accc3e27df75e168e5794a908c68c47a441552ed260ffc06b27177b3d5f301",
+    "src/main/java/dev/agentharness/demo/domain/AssistantGateway.java": "285b473b10f4f1d4b6362aa77b89f954093fd46ed6458ed9a8ba83a4bd3ded52",
+    "src/main/java/dev/agentharness/demo/domain/DateValidation.java": "e5d4b85e40c49f0b549e6049e933457934a24d211b9fc75349ebb6f7571baaac",
+    "src/main/java/dev/agentharness/demo/domain/RepairProject.java": "6269e83e3ce2c9050028be59539d1a6e1085ef88fdb39456e70dcbd3d75879da",
+    "src/main/java/dev/agentharness/demo/dto/AssistantReply.java": "6693e9414208aedc228d3fcbd6275a4ae151e75833f98cc4b89e89b6cd8fbce3",
+    "src/main/java/dev/agentharness/demo/infra/AgentScopeGateway.java": "6e0141048932199647f747b759a4d042117bbc237717619aecb68f69ba35e871",
+    "src/main/java/dev/agentharness/demo/infra/AppConfig.java": "5973f1d419ee528b6c3d5760b26694e0e05ab7121b3248d704d515c3f4f750d7",
+    "src/main/java/dev/agentharness/demo/infra/DateTool.java": "9e38e254dc28d6bd1415be5f9ceefcf96cb7ba43f7950f7cc27d329a2177e4ca",
+    "src/main/java/dev/agentharness/demo/infra/ModelTrace.java": "c6e0b40ebb9850535fa548dc194b8e73311fa7eb079cba390b747d25a3dc47cb",
+    "src/main/java/dev/agentharness/demo/infra/a2a/A2aTransport.java": "e8601f8a24f41b809d1864a70239bfa963bde7c39610468f8a64938ecdbcaae9",
+    "src/main/java/dev/agentharness/demo/infra/a2a/LocalConnection.java": "5d8b2af47411383486acd03b8966fe5cad2a158239eead26a9630deaad25fe23",
+    "src/main/java/dev/agentharness/demo/infra/repair/RepairTools.java": "9bf92e6895169b23b4c4b7d724134cd33f07864cc6043087945abb0c03874d72",
+    "src/main/java/dev/agentharness/demo/infra/repair/RepairWorkspace.java": "116b678423a20871d25b99683a6383b1fdc8cf980eff6759ef050c85679568ea",
+    "src/main/resources/repair/CheckDates.java.txt": "a39d501fff68483f1607dda403fb56cdd0c3f91614839200d2648e69abd3f5b1",
+    "src/main/resources/repair/DateParser.template": "2ac237c62977d26b23e70596de84e48d0ee268a539717255395b5da5c92aa97b",
+    "config/a2a-prompt.txt": "b4f83bcacd4e3a9010623efba5af1a52e7e713ae1da8352f5c092d21594cfacc",
+    "config/application.properties": "bf34b6fe84873229fe16464413dd25f239c2e063d64091d16b94ab29dbb82fdf",
+    "config/repair-prompt.txt": "48c0373da396d604d3df3ff5513e35fe49f3728729695e325963682a8200a416",
+    "config/repair-task.txt": "1083dd1d523eff259896fc6946a7d90413988fc178597cb3ec117add9d3bdcd1",
+    "config/system-prompt.txt": "c79bbe9dc381565ca4e713ec700b3320cc195968cb944c26910802dcf7c34247",
+    "run-a2a.sh": "fa1e54f8a4bada2893add7bd70f8535f7b45c8521d3cc4618310217e4988b193"
+  },
+  "runs": [
+    {
+      "command": "./run-a2a.sh client 2025-02-29",
+      "clientModelCredentialsPresent": false,
+      "exitCode": 0,
+      "seconds": 2.61,
+      "stdout": "[A2A 客户端] Card 已核验，HTTP+JSON 1.0；使用固定本机服务\n[A2A 发送] messageId=4e801d44-f6f5-4391-b8f5-3164252e249e, date=2025-02-29\n[A2A 返回] Message，contextId=da9083d3-7181-4c00-a94c-520b781f6440\n[远端回答，非验收] 2025-02-29 不存在，有效。\n[A2A 客户端] 已接收回答；无 Task、无会话续接、无自动重试。\n",
+      "stderr": ""
+    },
+    {
+      "command": "./run-a2a.sh client 2024-02-29",
+      "clientModelCredentialsPresent": false,
+      "exitCode": 0,
+      "seconds": 2.22,
+      "stdout": "[A2A 客户端] Card 已核验，HTTP+JSON 1.0；使用固定本机服务\n[A2A 发送] messageId=157f6657-1056-43f8-9a37-2ffa1a8ab760, date=2024-02-29\n[A2A 返回] Message，contextId=357f6ce6-80a6-406b-93a7-6acfb75c2369\n[远端回答，非验收] 日期 2024-02-29 存在，日期有效。\n[A2A 客户端] 已接收回答；无 Task、无会话续接、无自动重试。\n",
+      "stderr": ""
+    },
+    {
+      "command": "./run-a2a.sh client 03/04",
+      "clientModelCredentialsPresent": false,
+      "exitCode": 2,
+      "seconds": 1.69,
+      "stdout": "",
+      "stderr": "[A2A] 未完成。用法：./run-a2a.sh server [deepseek|ollama] / client yyyy-MM-dd；检查配置、占用和上一条阶段日志。发送后失败可能结果未知，不自动重发。\n"
+    }
+  ],
+  "serverOutput": "[A2A 服务] 127.0.0.1:53670, provider=ollama, model=qwen2.5:0.5b, capacity=1\n[A2A 服务] 另一个终端运行 ./run-a2a.sh client 2025-02-29；此处按回车停止。\n[A2A 接收] date=2025-02-29，创建独立临时 Agent\n[模型 #1] 开始\n[模型 #1] 完成\n[工具执行] check_date 开始\n[工具结果] date=2025-02-29, valid=false\n[模型 #2] 开始\n[模型 #2] 完成\n[A2A Agent] reason=MODEL_STOP\n[A2A 接收] date=2024-02-29，创建独立临时 Agent\n[模型 #1] 开始\n[模型 #1] 完成\n[工具执行] check_date 开始\n[工具结果] date=2024-02-29, valid=true\n[模型 #2] 开始\n[模型 #2] 完成\n[A2A Agent] reason=MODEL_STOP\n",
+  "credentialsRemoved": true,
+  "recordKind": "final-source-run",
+  "applicationTask": "explicit-check_date-request",
+  "toolCallsObserved": 2,
+  "qualityReview": "Tool chain completed; invalid-date answer contradictory, semantic acceptance failed"
+}

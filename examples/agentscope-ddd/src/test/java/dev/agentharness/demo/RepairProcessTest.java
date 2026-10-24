@@ -15,7 +15,10 @@ class RepairProcessTest {
     public static class Runner {
         public static void main(String[] args) throws Exception {
             // 测试子进程只做受控等待/输出，并留下 PID 供父进程确认回收。
-            Files.writeString(Path.of(args[1]), Long.toString(ProcessHandle.current().pid()));
+            Path pid = Path.of(args[1]), pending = pid.resolveSibling("pid.pending");
+            Files.writeString(pending, Long.toString(ProcessHandle.current().pid()));
+            // 完整 PID 发布后父线程才会中断，避免在空文件刚创建时杀死子进程。
+            Files.move(pending, pid, StandardCopyOption.ATOMIC_MOVE);
             // macOS/JVM 可能自行注入这两个平台变量，其他父进程变量都不应出现。
             boolean filtered = System.getenv().keySet().stream().allMatch(key -> key.equals("__CF_USER_TEXT_ENCODING") || key.matches("JAVA_MAIN_CLASS_[0-9]+"));
             System.out.println("ENV_FILTER_OK=" + filtered);
