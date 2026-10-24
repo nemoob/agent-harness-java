@@ -153,3 +153,24 @@ DDD 在这里用于讲清职责和依赖，日期校验不需要硬凑聚合、�
 ## A2A 日期服务
 
 在一个终端运行 `./run-a2a.sh server deepseek`，另一个终端运行 `./run-a2a.sh client 2025-02-29`。服务端也可选 `ollama`；客户端无需模型密钥。分层、协议、真实日志和模型质量边界见 [A2A DDD 指南](../../docs/a2a-ddd.md)。它只接日期工具，修复助手保持本地入口。
+
+
+## 第五、八章离线实验
+
+先装 Java 17；`run-lab.sh` 只用 `javac` 与 `java` 编译实验类及日期规则，不下载 Maven 依赖，不读取模型配置。它不改变通用助手、研发助手或 A2A 的运行行为。
+
+```bash
+./run-lab.sh loop normal
+./run-lab.sh loop bad-id
+./run-lab.sh loop missing-result
+./run-lab.sh loop limit
+./run-lab.sh context
+```
+
+正常 Loop 退出 0；后三个 Loop 故障场景预期退出 2。不要把预期故障写成测试未通过。上下文实验以完整教学请求的 UTF-8 字节计量预算，比较不裁剪、简单截尾和完整片段选择，最终汇总实际收到的工具结果；不是供应商 token 计数，也不是已接入 AgentScope 的自动压缩。
+
+源码在 `src/main/java/dev/agentharness/demo/lab/`。`MinimalLoop` 展示接续，`Message` 校验调用关系，`ContextSelection` 选择片段，`LabMain` 准备可重复场景。全书其他章节对应的工程与命令见[章节与代码入口](../../docs/chapter-entrypoints.md)。
+
+原始命令与退出码见[离线运行记录](../../docs/evidence/loop-context-lab-20261024.json)。聚焦测试：`../../mvnw -q -o -Dtest=LoopContextTest test`；首次 Maven 测试需先准备依赖，离线脚本本身不需要。
+
+片段主题由调用方显式指定：每个 required topic 选择最新完整片段，剩余额度再按时间从近到远补充整段，最后恢复原时间顺序；未完成工具链先等待回填，缺少必要主题则停止。这不是语义检索。
