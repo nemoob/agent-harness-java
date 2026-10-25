@@ -1,0 +1,9 @@
+{
+  "recordKind": "startup-failure",
+  "run_id": "83b78833-a849-425c-8f35-2dee3781b35a",
+  "exitCode": 2,
+  "executedTrials": 0,
+  "modelCalls": 0,
+  "reason": "numeric_node_type_mismatch",
+  "manifestSha256": "9ba4e5f982a16b0a78a8947088dc0a07edfc3010d09d7a4487b9b641fcce353a"
+}

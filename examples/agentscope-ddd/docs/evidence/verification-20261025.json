@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-25",
+  "java": "17.0.14",
+  "verification": "independent offline tests and saved real-run evidence readback",
+  "focused": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "classes": [
+      "InvestigationFlowTest",
+      "OperationsMainTest",
+      "EvaluationRunnerTest"
+    ]
+  },
+  "fullDdd": {
+    "classes": 9,
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "scriptSyntax": "three scripts bash -n passed",
+  "diffWhitespace": "git diff --check passed",
+  "fixedArtifact": {
+    "manifestEntriesChecked": 49,
+    "jarClassesMatchedFreshCompilation": 58
+  },
+  "realRuns": {
+    "investigation": "baseline 7 tests with 3 failures; final 7 passed; source hashes 19/19",
+    "operations": "DeepSeek; two observed model stages and one tool; HTTP200; SIGTERM exit143 within1s; connection removed",
+    "evaluation": "30/30 trials; A15/15 B15/15; 60 observed model calls and30 tools; A11985 B12495 tokens; costs unknown"
+  },
+  "limitations": [
+    "Offline operations artifact was superseded by final real-run bundle; old artifact was not reverified in final review.",
+    "Real model runs were not repeated during independent verification.",
+    "Local JVM deployment only, no Docker or production deployment.",
+    "Model-stage counts are not a separate provider HTTP transport audit."
+  ],
+  "maven": "3.9.11",
+  "commands": [
+    "JAVA_HOME=$(/usr/libexec/java_home -v 17) ./mvnw -q -o -f examples/agentscope-ddd/pom.xml -Dtest=InvestigationFlowTest,OperationsMainTest,EvaluationRunnerTest test",
+    "JAVA_HOME=$(/usr/libexec/java_home -v 17) ./mvnw -q -o -f examples/agentscope-ddd/pom.xml test"
+  ],
+  "testReports": "examples/agentscope-ddd/target/surefire-reports/TEST-*.xml"
+}

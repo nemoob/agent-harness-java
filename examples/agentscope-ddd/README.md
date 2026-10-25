@@ -174,3 +174,52 @@ DDD 在这里用于讲清职责和依赖，日期校验不需要硬凑聚合、�
 原始命令与退出码见[离线运行记录](../../docs/evidence/loop-context-lab-20261024.json)。聚焦测试：`../../mvnw -q -o -Dtest=LoopContextTest test`；首次 Maven 测试需先准备依赖，离线脚本本身不需要。
 
 片段主题由调用方显式指定：每个 required topic 选择最新完整片段，剩余额度再按时间从近到远补充整段，最后恢复原时间顺序；未完成工具链先等待回填，缺少必要主题则停止。这不是语义检索。
+
+## 第十二、十八、十九章：完整实验入口
+
+以下命令均在本目录运行，使用 Java 17；请先确认 `java -version`、`javac -version` 与 `JAVA_HOME` 指向同一套 JDK。真实 DeepSeek 调用沿用上面的环境变量配置，不把密钥写入文件或命令参数。
+
+| 目标 | 命令 | 验收要看什么 |
+| --- | --- | --- |
+| 规则与实现调查，再交接受限修复 | `./run-investigation.sh deepseek` | 两份只读工具证据、冲突汇总、真实失败基线、修改差异及最终重新编译测试 |
+| 构建本机部署产物 | `./run-operations.sh build` | 固定 JAR、运行依赖与配置摘要 |
+| 不调用模型的部署实验 | `./run-operations.sh offline` | 真实 HTTP、认证拒绝、请求关联、SIGTERM 与退出清理 |
+| 真实模型部署实验 | `./run-operations.sh experiment` | 实际模型与工具调用、HTTP 结果，以及随后独立的进程停止证据 |
+| 五题、两版、每版三次评测 | `./run-evaluation.sh deepseek` | 先冻结清单，再保留全部 30 个 trial、逐项判分、耗时及可取得的用量 |
+
+Operations 构建采用 Maven 离线模式。首次使用先联网准备依赖和插件：
+
+```bash
+../../mvnw -f pom.xml -DskipTests package dependency:copy-dependencies
+```
+
+依赖准备好后再运行表中的命令。Operations 是本机固定产物与停止信号实验，没有验证 Docker、跨机器部署或供应商远端取消。真实模型运行需要联网并产生费用；不要把 `offline` 的成功算成模型验证。
+
+调查任务沿用固定练习与现有 `RepairService`，没有任意目录、Shell 或修改测试的权限。两个只读调查 Agent 与修复 Agent 使用独立实例；程序按工具事实交接，模型审查文字不会直接成为执行指令。
+
+评测入口只接受 DeepSeek，五题均为完整日期，不能据此推导含糊输入、长期记忆或其他模型上的质量。A/B 比较使用相同用户要求；格式、工具遵循与事实一致性分别保留判定依据。完整原始记录在本目录的 `docs/evidence/`，每次正式复跑前先归档已有结果，禁止用新结果覆盖第一次失败。
+
+仓库保留了作者的正式记录，入口会拒绝覆盖。自己复跑时，先把现有清单和结果移到新建的备份目录（保留其他历史失败文件）：
+
+```bash
+backup="docs/evidence/archive-$(date +%Y%m%d-%H%M%S)"
+mkdir "$backup"
+for file in evaluation-manifest.json evaluation-results.json; do
+  if [ -f "docs/evidence/$file" ]; then
+    mv "docs/evidence/$file" "$backup/"
+  fi
+done
+./run-evaluation.sh deepseek prepare
+# 查看生成的 evaluation-manifest.json，再启动这组付费评测。
+./run-evaluation.sh deepseek
+```
+
+`prepare` 不调用模型。正式运行会核对清单与当前源码、配置；更改提示词后须重新准备清单，并保留上一份记录。30 个 trial 不等于 30 次模型调用，工具后的答复通常还需要下一次模型调用。
+
+本次作者运行记录（2026 年 10 月 25 日）：
+
+- [调查与受限修复](docs/evidence/investigation-deepseek-1792893886048-c7eeb750-6954-4116-8cf9-de34f2c8af10.json)：原始 7 项测试中 3 项失败，修复后重新编译，7/7 通过。
+- [真实服务与停止验收](docs/evidence/operations-local.json)及[原始阶段日志](docs/evidence/operations-local.log)：DeepSeek 日期工具实际执行，HTTP 结果核对通过；之后 SIGTERM 使进程在 1 秒内退出并清理连接文件。
+- [评测清单](docs/evidence/evaluation-manifest.json)与[全部 30 条结果](docs/evidence/evaluation-results.json)：A、B 各 15/15；共 60 次模型调用、30 次工具执行。B 比 A 多用 510 token，本题集未显示质量收益，因此没有据此采用更复杂的提示词。费用未知。
+
+以上是固定版本、固定题目的运行证据，不是通用成功率或性能排名。评测启动前发生过一次数字类型校验错误，修复前的清单和 0-trial 失败记录也保留在证据目录中，没有算进正式试次。
