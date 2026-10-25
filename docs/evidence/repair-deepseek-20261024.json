@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-24",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "mode": "REAL",
+  "exitCode": 0,
+  "seconds": 9.19,
+  "scope": "Fixed template exercise; model explanation is not independently fact checked",
+  "sourceSha256": {
+    "src/main/java/dev/agentharness/demo/adapter/ChatCli.java": "f73927520029dc20b891d5160e77a428cd39cfb694e240bef1991168711ace6a",
+    "src/main/java/dev/agentharness/demo/app/ChatService.java": "287e48e3468832166111d691ba5ee11e940d9595d71114eba410e7eefc56e037",
+    "src/main/java/dev/agentharness/demo/app/RepairService.java": "05ed4d2f2e75073b8c3b2686d51c2cd1d931e0c00833ed84d05809a2261a9c6c",
+    "src/main/java/dev/agentharness/demo/bootstrap/Main.java": "a9743f156cf416a551db973106cd0cf5c59eb240fd6a726710c71ec1d607333a",
+    "src/main/java/dev/agentharness/demo/bootstrap/RepairMain.java": "12accc3e27df75e168e5794a908c68c47a441552ed260ffc06b27177b3d5f301",
+    "src/main/java/dev/agentharness/demo/domain/AssistantGateway.java": "285b473b10f4f1d4b6362aa77b89f954093fd46ed6458ed9a8ba83a4bd3ded52",
+    "src/main/java/dev/agentharness/demo/domain/DateValidation.java": "e5d4b85e40c49f0b549e6049e933457934a24d211b9fc75349ebb6f7571baaac",
+    "src/main/java/dev/agentharness/demo/domain/RepairProject.java": "6269e83e3ce2c9050028be59539d1a6e1085ef88fdb39456e70dcbd3d75879da",
+    "src/main/java/dev/agentharness/demo/dto/AssistantReply.java": "6693e9414208aedc228d3fcbd6275a4ae151e75833f98cc4b89e89b6cd8fbce3",
+    "src/main/java/dev/agentharness/demo/infra/AgentScopeGateway.java": "6e0141048932199647f747b759a4d042117bbc237717619aecb68f69ba35e871",
+    "src/main/java/dev/agentharness/demo/infra/AppConfig.java": "5973f1d419ee528b6c3d5760b26694e0e05ab7121b3248d704d515c3f4f750d7",
+    "src/main/java/dev/agentharness/demo/infra/DateTool.java": "9e38e254dc28d6bd1415be5f9ceefcf96cb7ba43f7950f7cc27d329a2177e4ca",
+    "src/main/java/dev/agentharness/demo/infra/ModelTrace.java": "c6e0b40ebb9850535fa548dc194b8e73311fa7eb079cba390b747d25a3dc47cb",
+    "src/main/java/dev/agentharness/demo/infra/repair/RepairTools.java": "9bf92e6895169b23b4c4b7d724134cd33f07864cc6043087945abb0c03874d72",
+    "src/main/java/dev/agentharness/demo/infra/repair/RepairWorkspace.java": "116b678423a20871d25b99683a6383b1fdc8cf980eff6759ef050c85679568ea",
+    "src/main/resources/repair/CheckDates.java.txt": "a39d501fff68483f1607dda403fb56cdd0c3f91614839200d2648e69abd3f5b1",
+    "src/main/resources/repair/DateParser.template": "2ac237c62977d26b23e70596de84e48d0ee268a539717255395b5da5c92aa97b"
+  },
+  "stdout": "[研发助手] provider=deepseek, model=deepseek-flash\n[基线] FAIL\nPASS 2024-02-29 expected=true actual=true\nFAIL 2025-02-29 expected=false actual=true\nFAIL 1900-02-29 expected=false actual=true\nPASS 2000-02-29 expected=true actual=true\nFAIL 2025-04-31 expected=false actual=true\nPASS 2025-01-01 expected=true actual=true\nPASS 0000-01-01 expected=false actual=false\nchecks=7 failures=3\n\n[模型 #1] 开始\n[模型 #1] 完成\n[研发工具 #2] read_project_file\n[研发工具 #1] read_project_file\n[研发工具 #2] RETURNED\n[研发工具 #1] RETURNED\n[模型 #2] 开始\n[模型 #2] 完成\n[研发工具 #3] replace_expression\n[研发工具 #3] RETURNED\n[模型 #3] 开始\n[模型 #3] 完成\n[研发工具 #4] run_project_tests\n[研发工具 #4] RETURNED\n[模型 #4] 开始\n[模型 #4] 完成\n[模型说明，非验收] 修复完成，真实测试全部通过。\\u000A\\u000A## 根因\\u000A`DateParser.valid` 原先使用：\\u000A```java\\u000ALocalDate.parse(date, DateTimeFormatter.ofPattern(\"yyyy-MM-dd\"))\\u000A```\\u000A两个问题叠加导致非法日期被“修正”而不是被拒绝：\\u000A\\u000A1. **`ofPattern` 默认解析风格是 `ResolverStyle.SMART`**，它会把超出月份的日（如 `2025-04-31`）钳制为该月最后一天，把非闰年的 2 月 29 日（`2025-02-29`、`1900-02-29`）钳制为 2 月 28 日，因此不抛 `DateTimeParseException`，`valid` 返回 `true`。\\u000A2. **模式使用 `yyyy`（year-of-era）**，在严格解析语义下与 `LocalDate` 的 proleptic year 不匹配，正确做法是用 `uuuu`。\\u000A\\u000A这也解释了 `0000-01-01` 为何仍为 `false`：它由解析后的 `getYear() >= 1` 拦下。\\u000A\\u000A## 修改（仅改动唯一允许的日期表达式）\\u000A```java\\u000ALocalDate.parse(date, DateTimeFormatter.ofPattern(\"uuuu-MM-dd\").withResolverStyle(ResolverStyle.STRICT))\\u000A```\\u000A- `uuuu`：按 proleptic year 解析，消除 era 歧义。\\u000A- `withResolverStyle(ResolverStyle.STRICT)`：要求年月日必须真实存在，不再钳制非法日期，从而抛出 `DateTimeParseException` 被 `catch` 捕获并返回 `false`。\\u000A\\u000A未改动 `CheckDates.java`、输入形状正则或 `getYear() >= 1` 逻辑。\\u000A\\u000A## 真实测试结果（run_project_tests，exit=0）\\u000A```\\u000APASS 2024-02-29 expected=true  actual=true\\u000APASS 2025-02-29 expected=false actual=false\\u000APASS 1900-02-29 expected=false actual=false\\u000APASS 2000-02-29 expected=true  actual=true\\u000APASS 2025-04-31 expected=false actual=false\\u000APASS 2025-01-01 expected=true  actual=true\\u000APASS 0000-01-01 expected=false actual=false\\u000Achecks=7 failures=0\\u000A```\\u000A\\u000A## 未完成事项\\u000A无。7 项检查全部通过；有效日期（含闰年 2000-02-29）仍被接受，非法日期（2025-02-29、1900-02-29、2025-04-31）均被拒绝。\n[模型结束] MODEL_STOP\n[最终复验] PASS\nPASS 2024-02-29 expected=true actual=true\nPASS 2025-02-29 expected=false actual=false\nPASS 1900-02-29 expected=false actual=false\nPASS 2000-02-29 expected=true actual=true\nPASS 2025-04-31 expected=false actual=false\nPASS 2025-01-01 expected=true actual=true\nPASS 0000-01-01 expected=false actual=false\nchecks=7 failures=0\n\n[修改差异]\n--- DateParser.java (before)\n+++ DateParser.java (after)\n- LocalDate.parse(date, DateTimeFormatter.ofPattern(\"yyyy-MM-dd\"))\n+ LocalDate.parse(date, DateTimeFormatter.ofPattern(\"uuuu-MM-dd\").withResolverStyle(ResolverStyle.STRICT))\n[任务] PASS\n",
+  "stderr": ""
+}

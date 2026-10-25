@@ -1,0 +1,22 @@
+START host=127.0.0.1 port=49854 provider=deepseek model=deepseek-flash
+REJECT reason=auth
+REJECT reason=auth
+REJECT reason=auth
+REJECT reason=auth
+RECEIVE requestId=r-27731cebe069db87
+[模型 #1] 开始
+[模型 #1] 完成
+TOOL requestId=r-27731cebe069db87 date=2024-02-29 valid=true
+[模型 #2] 开始
+[模型 #2] 完成
+AGENT requestId=r-27731cebe069db87 outcome=tool_called
+RULE requestId=r-27731cebe069db87 valid=true
+RESPONSE requestId=r-27731cebe069db87 status=200
+REJECT reason=route_or_request_id
+REJECT reason=route_or_request_id
+RECEIVE requestId=r-27731cebe069db87
+REJECT requestId=r-27731cebe069db87 reason=date_format
+STOP phase=stop_accepting requestId=r-27731cebe069db87
+STOP phase=workers_wait
+STOP phase=connection_removed
+STOP phase=done

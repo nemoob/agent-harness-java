@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-24",
+  "model": "deterministic response function; no external model API",
+  "budgetUnit": "complete educational message serialization UTF-8 bytes, not tokens",
+  "sourceSha256": {
+    "examples/agentscope-ddd/src/main/java/dev/agentharness/demo/lab/Message.java": "7abc02d712f6a92fb357070ac46ad2e7143e53aee20e75a05e646b00d75c3ebc",
+    "examples/agentscope-ddd/src/main/java/dev/agentharness/demo/lab/LabMain.java": "8f27676f2c44f93abb15acbea51d5b0dc09d99f85ec630bfe86b1cac8344af4a",
+    "examples/agentscope-ddd/src/main/java/dev/agentharness/demo/lab/MinimalLoop.java": "e78dda61200de6201f55ef8789e790155c1e2ebe614d1b2ccfc63656a03cae0f",
+    "examples/agentscope-ddd/src/main/java/dev/agentharness/demo/lab/ContextSelection.java": "3ae0f6b4017d3dc931d6c29a742386244a0d0f29a4c602d4d3c2a7bb4da7eced",
+    "examples/agentscope-ddd/run-lab.sh": "434a6496fa483ef94d221161c58f2cbb452299f2604e669f2670a3eed8a6084a",
+    "examples/agentscope-ddd/src/main/java/dev/agentharness/demo/domain/DateValidation.java": "e5d4b85e40c49f0b549e6049e933457934a24d211b9fc75349ebb6f7571baaac"
+  },
+  "runs": [
+    {
+      "command": "./run-lab.sh loop",
+      "exitCode": 0,
+      "stdout": "[实验] 固定模型响应；离线执行；无 API Key\n[1 准备消息] system + user；只允许 check_date\n[2 请求模型 #1] messages=2\n[3 识别调用] id=date-1 check_date 2025-02-29\n[4 校验并执行] date=2025-02-29, valid=false\n[5 结果回填] id=date-1\n[6 判断] 继续\n[2 请求模型 #2] messages=4\n[6 停止] MODEL_STOP；工具核验结果：date=2025-02-29, valid=false\n[结束] reason=MODEL_STOP modelCalls=2 toolCalls=1\n",
+      "stderr": ""
+    },
+    {
+      "command": "./run-lab.sh loop bad-id",
+      "exitCode": 2,
+      "stdout": "[实验] 固定模型响应；离线执行；无 API Key\n[1 准备消息] system + user；只允许 check_date\n[2 请求模型 #1] messages=2\n[3 识别调用] id=date-1 check_date 2025-02-29\n[4 校验并执行] date=2025-02-29, valid=false\n[5 结果回填] id=wrong-id\n",
+      "stderr": "[实验停止] 工具结果 ID 不匹配: wrong-id\n"
+    },
+    {
+      "command": "./run-lab.sh loop missing-result",
+      "exitCode": 2,
+      "stdout": "[实验] 固定模型响应；离线执行；无 API Key\n[1 准备消息] system + user；只允许 check_date\n[2 请求模型 #1] messages=2\n[3 识别调用] id=date-1 check_date 2025-02-29\n[4 校验并执行] date=2025-02-29, valid=false\n[5 故障注入] 故意跳过结果回填\n",
+      "stderr": "[实验停止] 缺少结果回填: date-1\n"
+    },
+    {
+      "command": "./run-lab.sh loop limit",
+      "exitCode": 2,
+      "stdout": "[实验] 固定模型响应；离线执行；无 API Key\n[1 准备消息] system + user；只允许 check_date\n[2 请求模型 #1] messages=2\n[3 识别调用] id=date-1 check_date 2025-02-29\n[4 校验并执行] date=2025-02-29, valid=false\n[5 结果回填] id=date-1\n[6 判断] 继续\n[2 请求模型 #2] messages=4\n[3 识别调用] id=date-2 check_date 2025-02-29\n[4 校验并执行] date=2025-02-29, valid=false\n[5 结果回填] id=date-2\n[6 判断] MAX_MODEL_CALLS\n[结束] reason=MAX_MODEL_CALLS modelCalls=2 toolCalls=2\n",
+      "stderr": ""
+    },
+    {
+      "command": "./run-lab.sh context",
+      "exitCode": 0,
+      "stdout": "[实验] 固定模型响应；离线执行；无 API Key\n[预算] 1100 UTF-8 字节，包含全部教学请求字段；不是 token\n[none] 片段=1 完整请求=406 bytes\n[none] 片段=2 完整请求=4058 bytes\n[none] 片段=3 完整请求=4215 bytes\n[none] 超预算，拒绝发送\n[tail] 工具结果 ID 不匹配: date-2\n[episodes] 完整请求=563 bytes\n[固定模型回答] date=2025-02-29, valid=false；date=2024-02-29, valid=true\n[验收] 原始历史仍有 3 个片段；本轮工具执行=0；必要约束保留\n[极小预算] 必要输入已超预算\n",
+      "stderr": ""
+    }
+  ],
+  "independentVerification": {
+    "focusedTests": 13,
+    "dddRegressionTests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cliExitCodes": [
+      0,
+      2,
+      2,
+      2,
+      0
+    ],
+    "note": "independent rd_test; no real model calls; run-lab.sh loop defaults to normal"
+  }
+}

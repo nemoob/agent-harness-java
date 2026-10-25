@@ -1,0 +1,17 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
+import java.time.format.DateTimeParseException;
+
+public final class DateParser {
+    public static boolean valid(String date) {
+        // 先检查输入形状，再由解析器判断真实日期。
+        if (date == null || !date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) return false;
+        try {
+            // 本练习只允许修改下面的日期解析表达式。
+            return @@EXPRESSION@@.getYear() >= 1;
+        } catch (DateTimeParseException invalid) {
+            return false;
+        }
+    }
+}

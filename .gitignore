@@ -5,3 +5,6 @@ target/
 .DS_Store
 /state/
 
+
+# 本机 A2A 连接凭据永不提交。
+.a2a/

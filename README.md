@@ -1,5 +1,20 @@
 # Agent Harness Java
 
+## 从这里开始
+
+- **[调查、部署与评测实验](examples/agentscope-ddd/README.md#第十二十八十九章完整实验入口)**：独立 Agent 调查后受限修复、固定 JAR 启停、30 次真实模型 A/B 评测。
+
+- **[A2A DDD 真实模型案例](docs/a2a-ddd.md)**：两个终端完成跨进程日期工具调用，区分通信完成与回答正确。
+
+- **[选做研发助手](docs/repair-assistant.md)**：读取固定练习、提交受限源码修改、真实编译测试与独立验收。
+
+- **[AgentScope Java DDD 示例](examples/agentscope-ddd/README.md)**：通用助手、日期工具、DeepSeek 与本地 Ollama，两种模型共用一套清晰分层。
+- **[dsh 源码解析](docs/dsh-source-analysis.md)**：固定上游提交，解释 Profile、preset、插件、Agent 与会话的关系。
+- **[新示例验证记录](docs/agentscope-ddd-verification.md)**：区分离线测试与真实模型运行。
+
+下面保留原有确定性工作流和全栈实验说明；它们与上述入门示例是独立入口。
+
+
 这是一个 Java 17 公开教学工程，用确定性本地 fixture 演示 AgentScope 工具循环、
 跨进程恢复、角色交接，以及仅绑定环回地址的 A2A v1.0 HTTP+JSON 语义子集。
 下列五条基础旅程本身不需要模型 Key、Docker daemon、Nacos server 或远端服务。
